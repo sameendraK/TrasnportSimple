@@ -1,0 +1,23 @@
+<div class="location-form-wrapper">
+  <form [formGroup]="locationForm" (ngSubmit)="onSubmit()" class="location-form">
+    <label for="city-input">Enter City:</label>
+    <input
+      id="city-input"
+      type="text"
+      formControlName="city"
+      [ngClass]="{
+        'invalid-input': city.invalid && city.touched,
+        'valid-input': city.valid && city.touched
+      }"
+      placeholder="Type city name..."
+    />
+    <button type="submit">Submit</button>
+  </form>
+
+  <div class="submitted-locations">
+    <label for="submitted-dropdown">Submitted Cities:</label>
+    <select id="submitted-dropdown">
+      <option *ngFor="let loc of submittedLocations" [value]="loc">{{ loc }}</option>
+    </select>
+  </div>
+</div>

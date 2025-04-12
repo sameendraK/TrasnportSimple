@@ -1,0 +1,45 @@
+.app-component-wrapper-container {
+    padding: 20px;
+    background-color: #f9fafb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.components-wrapper-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Route Map + Serviceable Locations side by side */
+.route-map-and-servicable-locations-wrapper-container {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+}
+
+.route-map-component-wrapper-container,
+.servicable-locations-component-wrapper-container {
+    flex: 1;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    }
+}
+
+.trip-details-component-wrapper-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+}

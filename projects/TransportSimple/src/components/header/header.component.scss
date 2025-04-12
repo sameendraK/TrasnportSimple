@@ -1,0 +1,47 @@
+.list-style-none {
+    list-style: none;
+}
+
+.tex-decoration-none {
+    text-decoration: none;
+}
+
+.display-flex {
+    display: flex;
+}
+
+.nav-items-container {
+    align-self: center;
+}
+
+.header-container {
+    gap: 10rem;
+}
+
+.ul-gap {
+    gap: 3rem;
+}
+
+.buttons-container {
+    gap: 2rem;
+    align-self: center;
+}
+
+.btns-container a {
+
+    display: inline-flex;
+    align-items: center;
+    margin: 0 10px;
+    background: #0537ac;
+}
+.log-in-button{
+    padding: 8px 20px;
+    font-weight: 600;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: 0 0;
+}
+.get-started {
+    background: #0537ac;
+    font-weight: 500;
+}

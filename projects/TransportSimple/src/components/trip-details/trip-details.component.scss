@@ -1,0 +1,47 @@
+.display-flex {
+    display: flex;
+}
+
+.flow-container {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    height: 120px;
+    gap: 0;
+}
+
+.line-segment {
+    position: relative;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .dot {
+        width: 8px;
+        height: 8px;
+        background: yellow;
+        border-radius: 50%;
+        margin-bottom: 4px;
+    }
+
+    .line {
+        height: 2px;
+        background: yellow;
+        width: 100%;
+    }
+
+    &.arrow .line {
+        height: 30px;
+        width: 100px;
+        border-left: 2px solid yellow;
+        border-bottom: 2px solid yellow;
+        background: none;
+        transform: rotate(45deg) translateY(-10px);
+        transform-origin: top left;
+    }
+
+    &.level-two {
+        transform: translateY(-30px);
+    }
+}

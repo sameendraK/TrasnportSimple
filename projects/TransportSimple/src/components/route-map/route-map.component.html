@@ -1,0 +1,30 @@
+<div class="route-map-wrapper-container">
+    <div class="route-map-container">
+      <form [formGroup]="locationForm">
+        <div class="dropdown-group">
+          <label for="fromCity">From:</label>
+          <select id="fromCity" (change)="optClickHandler($event, true)" formControlName="fromCity">
+            <option *ngFor="let city of dropdownLocations$ | async" [value]="city.city">
+              {{ city.city }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="dropdown-group">
+          <label for="toCity">To:</label>
+          <select id="toCity" (change)="optClickHandler($event)" formControlName="toCity">
+            <option selected *ngFor="let city of toLocations$ | async" [value]="city.city">
+              {{ city.city }}
+            </option>
+          </select>
+        </div>
+      </form>
+    </div>
+  
+    <div class="add-route-btn-container">
+      <button type="button" (click)="addRouteHandler($event)">
+        Add route
+      </button>
+    </div>
+  </div>
+  
