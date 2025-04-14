@@ -5,14 +5,30 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
 
-navItemButtons=[
-  'Home','Features','About Us','Resources','Contact Us'
-]
+  navItemButtons = [
+    'Home', 'Features', 'About Us', 'Resources', 'Contact Us'
+  ]
+
+  ngOnInit() {
+    let doc = document.querySelector('.hamburger-menu')
+    console.log(doc);
+    doc?.addEventListener('click', () => { this.toggleMenu() })
+  }
+
+  menuOpen = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  hamburgerClickHandler() {
+    alert('hi')
+  }
 
 }

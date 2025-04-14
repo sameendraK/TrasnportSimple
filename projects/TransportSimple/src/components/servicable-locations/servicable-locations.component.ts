@@ -46,8 +46,6 @@ export class ServicableLocationsComponent implements OnInit {
       else {
         alert("City already exists");
       }
-
-      // console.log(this.servicableLocationsService.locations$.value);
     } else {
       this.city.markAsTouched();
     }

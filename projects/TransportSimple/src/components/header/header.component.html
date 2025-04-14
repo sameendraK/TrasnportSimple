@@ -1,30 +1,32 @@
 <div class="header-wrapper-container">
     <div class="header-container display-flex">
         <div class="brand-logo-container">
-            <img src="../../assets/transport_simple.png">
+            <img class="brand-image" src="../../assets/transport_simple.png" />
         </div>
-        <div class="nav-items-container">
+
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <div class="nav-items-container" [ngClass]="{ 'show-menu': menuOpen }">
             <div class="nav-buttons-container">
                 <ul class="list-style-none display-flex ul-gap">
                     <li *ngFor="let item of navItemButtons">
-                        <a class="tex-decoration-none" href='/'>
-                            {{item}}
-                        </a>
+                        <a class="tex-decoration-none" href="/">{{ item }}</a>
                     </li>
                 </ul>
             </div>
         </div>
+
         <div class="buttons-container display-flex">
             <div class="btns-container">
                 <div class="login-button-container">
-                    <a class="log-in-button">
-                        Log In
-                    </a>
+                    <a class="log-in-button">Log In</a>
                 </div>
                 <div class="get-started-button-container">
-                    <a class="get-started">
-                        Get Started
-                    </a>
+                    <a class="get-started">Get Started</a>
                 </div>
             </div>
         </div>

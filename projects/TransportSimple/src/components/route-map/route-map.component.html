@@ -1,6 +1,6 @@
 <div class="route-map-wrapper-container">
     <div class="route-map-container">
-      <form [formGroup]="locationForm">
+      <form class="form-container" [formGroup]="locationForm" >
         <div class="dropdown-group">
           <label for="fromCity">From:</label>
           <select id="fromCity" (change)="optClickHandler($event, true)" formControlName="fromCity">

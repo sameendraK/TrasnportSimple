@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as d3 from 'd3';
-import { LiteralExpr } from '@angular/compiler';
 
 enum LineTypes {
   Straight = 'straight-line',
@@ -25,6 +24,11 @@ export class TripDetailsComponent implements OnInit {
   width = 300;
   height = 100;
   segmentWidth = 120;
+  currentX = 15;
+  initialBaseY = 150;
+  baseY = this.initialBaseY;
+  levelTwoYOffset = 30;
+
   @ViewChild('svgContainer', { static: true }) svgRef!: ElementRef<SVGSVGElement>;
 
   constructor(
@@ -34,33 +38,26 @@ export class TripDetailsComponent implements OnInit {
   }
   ngOnInit() {
     this.tripsPaths$ = this.tripDetailsService.tripsPath$;
-    // this.renderSVG();
-    // this.renderSampleSVG();
     this.tripDetailsService.tripsPath$.subscribe(i => {
       if (this.tripsPaths$.value.length > 0) {
         let tripsPath: any[] = this.tripsPaths$.value;
         if (tripsPath.length === 1 && ((tripsPath[0].graphic) === LineTypes.LevelTwo || tripsPath[0] === LineTypes.LevelTwo)) {
           this.clearExistingSVG();
         }
-        this.renderSampleSVG(this.tripsPaths$.value[this.tripsPaths$.value.length - 1])
-        console.log("the data", i);
+        this.renderSVG(this.tripsPaths$.value[this.tripsPaths$.value.length - 1])
       }
 
     })
   }
-  currentX = 0; // starting x
-  initialBaseY = 150;  // base y position
-  baseY = this.initialBaseY;
 
 
   clearExistingSVG() {
     d3.select("svg").selectAll("*").remove();
-    this.currentX = 0;
+    this.currentX = 15;
     this.initialBaseY = 150;
   }
 
-  renderSampleSVG(type: any) {
-    // console.log(i);
+  renderSVG(type: any) {
     let displayText = type.displayText
     var svgWidth = '100%';
     var svgHeight = 400;
@@ -73,26 +70,31 @@ export class TripDetailsComponent implements OnInit {
         this.downCurve(svg, displayText);
       }
       else {
-        // Draw the line
+        svg.append("circle")
+          .attr("cx", this.currentX)
+          .attr("cy", this.initialBaseY)
+          .attr("r", 5)
+          .attr("fill", "#0483E5");
+        // Line
         svg.append("line")
           .attr("x1", this.currentX)
           .attr("y1", this.initialBaseY)
-          .attr("x2", this.currentX + 80) // shorten the line for the arrow
+          .attr("x2", this.currentX + 80)
           .attr("y2", this.initialBaseY)
-          .attr("stroke", "red");
+          .attr("stroke", "#0483E5");
 
-        // Draw the arrowhead using polygon
+        // Arrow
         svg.append('polygon')
           .attr('points', `${this.currentX + 80},${this.initialBaseY - 5} ${this.currentX + 90},${this.initialBaseY} ${this.currentX + 80},${this.initialBaseY + 5}`)
-          .attr('fill', 'red');
+          .attr('fill', '#0483E5');
 
-        // Label the arrow
+        // Text
         svg.append("text")
           .text(displayText)
           .attr("x", this.currentX + 5)
-          .attr("y", this.initialBaseY - 10); // Adjust text above line
+          .attr("y", this.initialBaseY + 15);
 
-        this.currentX += 100; // move currentX forward
+        this.currentX += 100;
       }
     }
     else if (type.graphic === LineTypes.Straight) {
@@ -103,20 +105,20 @@ export class TripDetailsComponent implements OnInit {
         svg.append("circle")
           .attr("cx", this.currentX)
           .attr("cy", this.initialBaseY)
-          .attr("r", 10)
-          .attr("fill", "red");
+          .attr("r", 5)
+          .attr("fill", "#595FAB");
 
         svg.append("text")
           .text(displayText)
           .attr("x", this.currentX + 5)
-          .attr("y", this.initialBaseY - 15); // above the circle
+          .attr("y", this.initialBaseY + 15);
 
         svg.append("line")
           .attr("x1", this.currentX)
           .attr("y1", this.initialBaseY)
           .attr("x2", this.currentX + 100)
           .attr("y2", this.initialBaseY)
-          .attr("stroke", "blue");
+          .attr("stroke", "#595FAB");
 
         this.currentX += 100;
       }
@@ -132,7 +134,6 @@ export class TripDetailsComponent implements OnInit {
         const curveStartX = this.currentX;
         const curveStartY = this.initialBaseY;
 
-        // Determine if we're moving up or coming back down
         const goingUp = this.initialBaseY === this.initialBaseY;
         const curveEndY = goingUp ? this.initialBaseY - 100 : this.initialBaseY;
 
@@ -147,80 +148,32 @@ export class TripDetailsComponent implements OnInit {
         svg.append("text")
           .text(displayText)
           .attr("x", curveStartX + 5)
-          .attr("y", this.initialBaseY - 15);
+          .attr("y", this.initialBaseY + 15);
 
-        // Dot before curve
         svg.append("circle")
           .attr("cx", curveStartX)
           .attr("cy", curveStartY)
           .attr("r", 5)
-          .attr("fill", "orange");
+          .attr("fill", "#FDD49A");
 
-        // Curved line
         svg.append("path")
           .attr("d", `M ${curveStartX} ${curveStartY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${curveEndX} ${curveEndY}`)
-          .attr("stroke", "orange")
+          .attr("stroke", "#FDD49A")
           .attr("stroke-width", 2)
           .attr("fill", "none");
 
-        // Dot after curve
         svg.append("circle")
           .attr("cx", curveEndX)
           .attr("cy", curveEndY)
           .attr("r", 5)
-          .attr("fill", "orange");
+          .attr("fill", "#FDD49A");
 
-        // Update X and Y
         this.currentX = curveEndX;
         this.initialBaseY = curveEndY;
       }
 
     }
 
-  }
-
-  renderSVG() {
-    const svg = d3.select(this.svgRef.nativeElement)
-      .attr('width', this.tripsPaths$.value.length * this.segmentWidth)
-      .attr('height', this.height * 2);
-
-    let x = 0;
-    let y = this.height;
-
-    this.tripsPaths$.value.forEach((type, index) => {
-      let path = '';
-
-      if (type === 'straight-line') {
-        path = `M${x},${y} L${x + this.segmentWidth},${y}`;
-      } else if (type === 'arrow-line') {
-        path = `M${x},${y} C${x + 30},${y - 60},${x + 90},${y - 60},${x + this.segmentWidth},${y}`;
-        svg.append('polygon')
-          .attr('points', `${x + this.segmentWidth - 10},${y - 5} ${x + this.segmentWidth},${y} ${x + this.segmentWidth - 10},${y + 5}`)
-          .attr('fill', 'orange');
-      } else if (type === 'level-two') {
-        y = this.height / 2;
-        path = `M${x},${y} L${x + this.segmentWidth},${y}`;
-      }
-
-      svg.append('path')
-        .attr('d', path)
-        .attr('stroke', 'orange')
-        .attr('fill', 'none')
-        .attr('stroke-width', 3);
-
-      svg.append('circle')
-        .attr('cx', x)
-        .attr('cy', y)
-        .attr('r', 5)
-        .attr('fill', 'orange');
-
-      x += this.segmentWidth;
-
-      // Reset Y for straight-line after level-two
-      if (type === 'level-two' && this.tripsPaths$.value[index + 1] === 'straight-line') {
-        y = this.height;
-      }
-    });
   }
 
   downCurve(svg: any, displayText: string) {
@@ -235,41 +188,33 @@ export class TripDetailsComponent implements OnInit {
     const controlX2 = curveEndX - 25;
     const controlY2 = curveEndY + 25;
 
-    // Label
     svg.append("text")
       .text(displayText)
       .attr("x", curveStartX + 5)
-      .attr("y", curveStartY - 15);
+      .attr("y", curveStartY + 15);
 
-    // Dot before curve
     svg.append("circle")
       .attr("cx", curveStartX)
       .attr("cy", curveStartY)
       .attr("r", 5)
-      .attr("fill", "purple");
+      .attr("fill", "#9FA8B2");
 
-    // Curved line (downward)
     svg.append("path")
       .attr("d", `M ${curveStartX} ${curveStartY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${curveEndX} ${curveEndY}`)
-      .attr("stroke", "purple")
+      .attr("stroke", "#9FA8B2")
       .attr("stroke-width", 2)
       .attr("fill", "none");
 
-    // Dot after curve
     svg.append("circle")
       .attr("cx", curveEndX)
       .attr("cy", curveEndY)
       .attr("r", 5)
-      .attr("fill", "purple");
+      .attr("fill", "#9FA8B2");
 
-    // Update state
     this.currentX = curveEndX;
     this.initialBaseY = curveEndY;
   }
 
-  levelTwoYOffset = 30;      // Downward shift for level-two
-
-  // Generates path string for each type
   getPath(index: number): string {
     const type = this.tripsPaths$.value[index];
     const xStart = index * this.segmentWidth;

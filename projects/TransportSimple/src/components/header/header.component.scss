@@ -15,11 +15,18 @@
 }
 
 .header-container {
-    gap: 10rem;
+    gap: 8rem;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .ul-gap {
-    gap: 3rem;
+    gap: 1rem;
+}
+
+.brand-image {
+    max-width: 16rem;
 }
 
 .buttons-container {
@@ -27,21 +34,88 @@
     align-self: center;
 }
 
-.btns-container a {
+.btns-container {
+    display: flex;
+}
 
+.btns-container a {
     display: inline-flex;
     align-items: center;
     margin: 0 10px;
-    background: #0537ac;
 }
-.log-in-button{
+
+.log-in-button {
     padding: 8px 20px;
     font-weight: 600;
     border: 1px solid #ccc;
     border-radius: 10px;
-    background: 0 0;
+    background: white;
 }
+
 .get-started {
+    color: white;
+    border-radius: 0.5rem;
+    padding: 8px 20px;
     background: #0537ac;
-    font-weight: 500;
+}
+
+// Hamburger hidden by default
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 18px;
+    cursor: pointer;
+
+    .bar {
+        height: 3px;
+        background-color: #333;
+        border-radius: 2px;
+    }
+}
+
+// Responsive styles for mobile
+@media screen and (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .hamburger-menu {
+        display: flex;
+        align-self: flex-end;
+        margin-top: 0.5rem;
+        margin-right: 1rem;
+    }
+
+    .nav-buttons-container ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nav-items-container,
+    .buttons-container {
+        display: none;
+    }
+
+    .nav-items-container.show-menu,
+    .buttons-container.show-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+
+    .btns-container {
+        justify-content: space-evenly;
+        align-items: flex-start;
+    }
+
+    .btns-container a {
+        margin: 5px 0;
+    }
 }

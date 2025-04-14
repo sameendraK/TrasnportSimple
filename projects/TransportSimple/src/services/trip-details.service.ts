@@ -60,7 +60,6 @@ export class TripDetailsService {
       this.tripsPath.push({ graphic: 'arrow-line', displayText: fromToCombinedDisplayText })
     }
     this.tripsPath$.next(this.tripsPath);
-    console.log(this.tripsPath);
   }
 
   assignLevel(level: string = Levels.Level_1) {

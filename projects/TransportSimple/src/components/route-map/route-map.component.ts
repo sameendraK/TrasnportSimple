@@ -31,7 +31,6 @@ export class RouteMapComponent implements OnInit {
     this.servicableLocationsService.locations$.subscribe(data => {
       const allLocations = data || [];
       this.dropdownLocations$.next(allLocations);
-      // console.log(allLocations)
     });
     this.locationForm = this.fb.group({
       fromCity: ['', Validators.required],
@@ -47,8 +46,6 @@ export class RouteMapComponent implements OnInit {
     if (setToValueNull) {
       this.locationForm.get('toCity')?.setValue(null)
     }
-    // console.log(this.toLocations$)
-    // console.log(toLocations)
   }
 
   addRouteHandler(event: any) {
@@ -59,8 +56,6 @@ export class RouteMapComponent implements OnInit {
     this.tripDetailsService.tripsList.push({ from: fromCity, to: toCity });
 
 
-    // console.log(this.locationForm)
-    // console.log(this.tripDetailsService.tripsList);
     this.tripDetailsService.pathCalculator();
   }
 
